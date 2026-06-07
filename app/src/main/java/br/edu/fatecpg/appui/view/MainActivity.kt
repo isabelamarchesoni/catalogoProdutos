@@ -1,12 +1,10 @@
 package br.edu.fatecpg.appui.view
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import br.edu.fatecpg.appui.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,24 +16,40 @@ class MainActivity : AppCompatActivity() {
 
         loadFragment("eletronicos")
 
-        bottomNav.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_eletronicos -> loadFragment("eletronicos")
-                R.id.nav_roupas -> loadFragment("roupas")
-                R.id.nav_livros -> loadFragment("livros")
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_eletronicos -> {
+                    loadFragment("eletronicos")
+                    showSnackbar("Eletrônicos")
+                }
+                R.id.nav_roupas -> {
+                    loadFragment("roupas")
+                    showSnackbar("Roupas")
+                }
+                R.id.nav_livros -> {
+                    loadFragment("livros")
+                    showSnackbar("Livros")
+                }
+                else -> {}
             }
             true
         }
     }
 
     private fun loadFragment(categoria: String) {
-        val fragment = ListaFragment()
-        val bundle = Bundle()
-        bundle.putString("categoria", categoria)
-        fragment.arguments = bundle
-
+        val fragment = ListaFragment.newInstance(categoria)
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameContainer, fragment)
             .commit()
+    }
+
+    private fun showSnackbar(categoria: String) {
+        Snackbar.make(
+            findViewById(R.id.frameContainer),
+            "Exibindo $categoria",
+            Snackbar.LENGTH_SHORT
+        ).setBackgroundTint(getColor(R.color.pink))
+            .setTextColor(getColor(R.color.text_primary))
+            .show()
     }
 }

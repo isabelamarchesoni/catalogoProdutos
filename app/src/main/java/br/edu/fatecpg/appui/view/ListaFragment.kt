@@ -1,49 +1,62 @@
 package br.edu.fatecpg.appui.view
 
-import br.edu.fatecpg.appui.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.edu.fatecpg.appui.R
 import br.edu.fatecpg.appui.adapter.ProdutoAdapter
 import br.edu.fatecpg.appui.model.Produto
-import androidx.fragment.app.Fragment
 
 class ListaFragment : Fragment() {
 
-        private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View {
-            val view = inflater.inflate(R.layout.fragment_lista, container, false)
-            recyclerView = view.findViewById(R.id.recyclerProdutos)
+    companion object {
+        fun newInstance(categoria: String): ListaFragment {
+            val fragment = ListaFragment()
+            val bundle = Bundle()
+            bundle.putString("categoria", categoria)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
-            val categoria = arguments?.getString("categoria")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_lista, container, false)
+        recyclerView = view.findViewById(R.id.recyclerProdutos)
 
-            val lista = when (categoria) {
-                "eletronicos" -> listOf(
-                    Produto("Celular", "R$ 1500", android.R.drawable.ic_menu_gallery),
-                    Produto("Notebook", "R$ 3500", android.R.drawable.ic_menu_gallery)
-                )
-                "roupas" -> listOf(
-                    Produto("Camiseta", "R$ 50", android.R.drawable.ic_menu_gallery),
-                    Produto("Calça", "R$ 120", android.R.drawable.ic_menu_gallery)
-                )
-                else -> listOf(
-                    Produto("Livro Kotlin", "R$ 80", android.R.drawable.ic_menu_gallery),
-                    Produto("Livro Android", "R$ 90", android.R.drawable.ic_menu_agenda)
-                )
-            }
+        val categoria = arguments?.getString("categoria") ?: "eletronicos"
 
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = ProdutoAdapter(lista)
+        val lista = when (categoria) {
+            "eletronicos" -> listOf(
+                Produto("iPhone 13 Rosa", "R$ 3.299,00", R.drawable.img_celular),
+                Produto("AirPods 4", "R$ 1.249,00", R.drawable.img_fone),
+                Produto("Monitor", "R$ 1.200,00", R.drawable.img_monitor),
+                Produto("MacBook Air Estelar", "R$ 7.499,00", R.drawable.img_notebook)
+            )
+            "roupas" -> listOf(
+                Produto("Regata Floral", "R$ 60,00", R.drawable.img_blusa),
+                Produto("Regata Rosa Canelada", "R$ 70,00", R.drawable.img_blusa_rosa),
+                Produto("Jaqueta Adidas", "R$ 150,00", R.drawable.img_casaco)
+            )
+            else -> listOf(
+                Produto("A Razão do Amor", "R$ 80,00", R.drawable.img_livro_um, false, "Ali Hazelwood"),
+                Produto("Para Todos os Garotos que Já Amei", "R$ 75,00", R.drawable.img_livro_dois, false, "Jenny Han"),
+                Produto("Orgulho e Preconceito", "R$ 90,00", R.drawable.img_livro_tres, false, "Jane Austen")
+            )
+        }
 
-            return view
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = ProdutoAdapter(lista)
+
+        return view
     }
 }
