@@ -34,7 +34,7 @@ Exibe os produtos organizados em três categorias via `BottomNavigationView`.
   </tr>
   <tr>
     <td align="center"><img src="screenshots/TelaWelcome.jpg" width="180"/></td>
-    <td align="center"><img src="screenshots/TelaEletronicos.jpg" width="180"/></td>
+    <td align="center"><img src="screenshots/TelaEletronicos.jpg" width="178"/></td>
     <td align="center"><img src="screenshots/TelaRoupas.jpg" width="180"/></td>
     <td align="center"><img src="screenshots/TelaLivros.jpg" width="180"/></td>
   </tr>
